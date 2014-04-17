@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            name="Explorer"
+            icon="icons/Windows_Explorer_Icon_16x16.png"
+            category="com.github.culmat.eexplorer"
+            class="com.github.culmat.eexplorer.views.ExplorerView"
+            id="com.github.culmat.eexplore.views.ExplorerView">
+      </view>
+   </extension>
+
+</plugin>
