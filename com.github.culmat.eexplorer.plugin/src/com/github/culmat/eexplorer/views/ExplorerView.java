@@ -74,7 +74,6 @@ public class ExplorerView extends ViewPart implements FileSelectionListener {
 
 	@Override
 	public void select(File selection) {
-		System.out.println(selection.getAbsolutePath());
 		try {
 			auto.invoke(Navigate, new Variant[] { new Variant(selection.getCanonicalPath()) });
 		} catch (Exception e) {
