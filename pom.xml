@@ -12,8 +12,10 @@
 		<tycho.version>0.19.0</tycho.version>
 		<github.global.server>github</github.global.server>
 		<kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
+		<osgi.os>win32</osgi.os>
+		<osgi.ws>win32</osgi.ws>
+		<osgi.arch>x86</osgi.arch>
 	</properties>
-
 	<repositories>
 		<repository>
 			<id>eclipse-kepler</id>
