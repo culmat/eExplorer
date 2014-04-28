@@ -21,7 +21,7 @@
 				<version>0.9</version>
 				<configuration>
 					<repositoryOwner>culmat</repositoryOwner>
-					<repositoryName>eexplorer</repositoryName>
+					<repositoryName>eExplorer</repositoryName>
 					<message>Releasing update site for ${project.version}</message>
 					<path>updatesite</path>
 				</configuration>
