@@ -16,8 +16,9 @@ eExplorer
 </table>
 
 
-eExplorer is an Eclipse plugin to embed Windows Explorer and keep it in sync with your work.
-Explorer is a tool many of us use every day and many of us customize to their needs. So it is 
+**eExplorer** is an Eclipse plugin to embed Windows Explorer and keep it in sync with your work.
+
+Explorer is a tool many of us use every day and many of us customize to their needs, so it is 
 only natural we long for an easy integration in Eclipse. 
 There are many plugins that allow to copy a resources path to clipboard (to paste it into Explorer), to open a terminal, to open Explorer.
 
