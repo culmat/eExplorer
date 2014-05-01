@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.github.culmat.eexplorer.feature"
-      label="eExplorer Feature"
+      label="eExplorer"
       version="1.0.0.qualifier"
       provider-name="Matthias Cullmann"
-      os="win32">
+      os="win32"
+      license-feature="org.eclipse.jdt"
+      license-feature-version="3.9.2.v20140221-1700">
 
-   <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+   <description url="https://github.com/culmat/eExplorer">
+      eExplorer is an Eclipse plugin to embed Windows Explorer and keep it in sync with your work.
    </description>
 
    <copyright url="http://www.example.com/copyright">
-      [Enter Copyright Description here.]
+      Copyright Matthias Cullmann
    </copyright>
 
    <license url="http://www.example.com/license">
