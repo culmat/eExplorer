@@ -28,10 +28,12 @@ That is why I wrote eExplorer. Now the terminal, unzip, thumbnail, git bash, and
 I hope you like eExplorer - you can [request features and report issues](./issues) or you might try another option like
 
 - [EasyShell](http://marketplace.eclipse.org/content/easyshell)
-- [a copy path plugin](http://marketplace.eclipse.org/search/site/copy%2520path)
-- [an open explorer plugin](http://marketplace.eclipse.org/search/site/open%2520explorer)
+- [copy path plugins](http://marketplace.eclipse.org/search/site/copy%2520path)with 
+- [open explorer plugins](http://marketplace.eclipse.org/search/site/open%2520explorer)
 
 
+<a href="http://with-eclipse.github.io/" target="_blank">
+<img alt="with-Eclipse logo" src="http://with-eclipse.github.io/with-eclipse-0.jpg" /></a>
 
 
 
