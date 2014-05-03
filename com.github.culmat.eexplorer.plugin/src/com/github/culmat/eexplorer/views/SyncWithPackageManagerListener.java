@@ -1,8 +1,9 @@
 package com.github.culmat.eexplorer.views;
 
+import static com.github.culmat.eexplorer.views.FileDetector.detect;
+
 import java.io.File;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
@@ -21,11 +22,10 @@ public class SyncWithPackageManagerListener implements ISelectionListener {
 	private final FileSelectionListener listener;
 	private File lastSelection;
 
-
 	public static interface FileSelectionListener {
 		void select(File selection);
 	}
-	
+
 	SyncWithPackageManagerListener(IWorkbenchWindow workbenchWindow, FileSelectionListener listener) {
 		this.listener = listener;
 		selectionService = workbenchWindow.getSelectionService();
@@ -43,26 +43,28 @@ public class SyncWithPackageManagerListener implements ISelectionListener {
 		while (iterator.hasNext()) {
 			Object item = iterator.next();
 			if (item instanceof IAdaptable) {
-				IResource resource = (IResource) ((IAdaptable) item)
-						.getAdapter(IResource.class);
+				IResource resource = (IResource) ((IAdaptable) item).getAdapter(IResource.class);
 				if (resource != null) {
 					IPath location = resource.getLocation();
-					if(location != null){
+					if (location != null) {
 						File file = location.toFile();
-						if(!file.isDirectory()) file = file.getParentFile();
 						notifyListener(file);
+						return;
 					}
 				}
-				
-				
-				
-
+				File fuzzy = detect(item.toString());
+				notifyListener(fuzzy);
+				return;
 			}
 		}
 	}
 
 	private void notifyListener(File file) {
-		if(file.equals(lastSelection)) return;
+		if(file == null) return;
+		if (!file.isDirectory())
+			file = file.getParentFile();
+		if (file.equals(lastSelection))
+			return;
 		lastSelection = file;
 		listener.select(file);
 	}
@@ -72,14 +74,11 @@ public class SyncWithPackageManagerListener implements ISelectionListener {
 			return;
 		this.enabled = enabled;
 		if (enabled) {
-			selectionService
-					.addPostSelectionListener(PACKAGE_EXPLORER_ID, this);
-			ISelection selection = selectionService
-					.getSelection(PACKAGE_EXPLORER_ID);
+			selectionService.addPostSelectionListener(PACKAGE_EXPLORER_ID, this);
+			ISelection selection = selectionService.getSelection(PACKAGE_EXPLORER_ID);
 			selectionChanged(null, selection);
 		} else {
-			selectionService.removePostSelectionListener(PACKAGE_EXPLORER_ID,
-					this);
+			selectionService.removePostSelectionListener(PACKAGE_EXPLORER_ID, this);
 		}
 	}
 }
