@@ -18,11 +18,15 @@ eExplorer
 
 **eExplorer** is an Eclipse plugin to embed Windows Explorer and keep it in sync with your work.
 
+Features
+
+- Sync with package manager
+
 Explorer is a tool many of us use every day and many of us customize to their needs, so it is 
 only natural we long for an easy integration in Eclipse. 
 There are many plugins that allow to copy a resources path to clipboard (to paste it into Explorer), to open a terminal, to open Explorer.
 
-I habe been using EasyShell for a long time, and still use it. But I found myself having too many Explorer Windows open on a regular basis.
+I have been using EasyShell for a long time, and still use it. But I found myself having too many Explorer Windows open on a regular basis.
 That is why I wrote eExplorer. Now the terminal, unzip, thumbnail, git bash, and many more are always present.
 
 I hope you like eExplorer - you can [request features and report issues](./issues) or you might try another option like
