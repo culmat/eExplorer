@@ -20,7 +20,9 @@ eExplorer
 
 Features
 
-- Sync with package manager
+- sync with package explorer
+- sync with project explorer
+
 
 Explorer is a tool many of us use every day and many of us customize to their needs, so it is 
 only natural we long for an easy integration in Eclipse. 
