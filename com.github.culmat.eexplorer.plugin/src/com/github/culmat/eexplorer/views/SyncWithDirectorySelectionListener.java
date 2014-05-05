@@ -15,8 +15,10 @@ import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 
-public class SyncWithPackageManagerListener implements ISelectionListener {
+public class SyncWithDirectorySelectionListener implements ISelectionListener {
 	private static final String PACKAGE_EXPLORER_ID = "org.eclipse.jdt.ui.PackageExplorer";
+	private static final String PROJECT_EXPLORER_ID = "org.eclipse.ui.navigator.ProjectExplorer";
+	private static final String[] IDS = new String[]{PROJECT_EXPLORER_ID,PACKAGE_EXPLORER_ID};
 	private boolean enabled;
 	private final ISelectionService selectionService;
 	private final FileSelectionListener listener;
@@ -26,7 +28,7 @@ public class SyncWithPackageManagerListener implements ISelectionListener {
 		void select(File selection);
 	}
 
-	SyncWithPackageManagerListener(IWorkbenchWindow workbenchWindow, FileSelectionListener listener) {
+	SyncWithDirectorySelectionListener(IWorkbenchWindow workbenchWindow, FileSelectionListener listener) {
 		this.listener = listener;
 		selectionService = workbenchWindow.getSelectionService();
 	}
@@ -74,11 +76,20 @@ public class SyncWithPackageManagerListener implements ISelectionListener {
 			return;
 		this.enabled = enabled;
 		if (enabled) {
-			selectionService.addPostSelectionListener(PACKAGE_EXPLORER_ID, this);
-			ISelection selection = selectionService.getSelection(PACKAGE_EXPLORER_ID);
-			selectionChanged(null, selection);
+			for (String id   : IDS) {
+				selectionService.addPostSelectionListener(id, this);				
+			}
+			for (String id   : IDS) {
+				ISelection selection = selectionService.getSelection(id);
+				if(selection != null) {
+					selectionChanged(null, selection);
+					break;
+				}
+			}
 		} else {
-			selectionService.removePostSelectionListener(PACKAGE_EXPLORER_ID, this);
+			for (String id   : IDS) {
+				selectionService.removePostSelectionListener(id, this);
+			}
 		}
 	}
 }

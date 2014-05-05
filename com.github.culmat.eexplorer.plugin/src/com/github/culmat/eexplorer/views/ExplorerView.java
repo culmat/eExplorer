@@ -15,7 +15,7 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
 
-import com.github.culmat.eexplorer.views.SyncWithPackageManagerListener.FileSelectionListener;
+import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.FileSelectionListener;
 
 public class ExplorerView extends ViewPart implements FileSelectionListener {
 
@@ -26,7 +26,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener {
 
 	private OleClientSite site;
 
-	private SyncWithPackageManagerListener selectionListener;
+	private SyncWithDirectorySelectionListener selectionListener;
 
 	private OleAutomation auto;
 	static final int Navigate = 0x68;
@@ -34,7 +34,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener {
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		super.init(site);
-		selectionListener = new SyncWithPackageManagerListener(site.getWorkbenchWindow(), this);
+		selectionListener = new SyncWithDirectorySelectionListener(site.getWorkbenchWindow(), this);
 		Display.getDefault().asyncExec(new Runnable()
 		{
 		  @Override
