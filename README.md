@@ -31,7 +31,7 @@ There are many plugins that allow to copy a resources path to clipboard (to past
 I have been using EasyShell for a long time, and still use it. But I found myself having too many Explorer Windows open on a regular basis.
 That is why I wrote eExplorer. Now the terminal, unzip, thumbnail, git bash, and many more are always present.
 
-I hope you like eExplorer - you can [request features and report issues](./issues) or you might try another option like
+I hope you like eExplorer - you can [request features and report issues](https://github.com/culmat/eExplorer/issues) or you might try another option like
 
 - [EasyShell](http://marketplace.eclipse.org/content/easyshell)
 - [copy path plugins](http://marketplace.eclipse.org/search/site/copy%2520path)
