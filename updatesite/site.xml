@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/com.github.culmat.eexplorer.feature_1.0.0.201405181715.jar" id="com.github.culmat.eexplorer.feature" version="1.0.0.201405181715" os="win32"/>
+   <feature url="features/com.github.culmat.eexplorer.feature_1.0.0.201405182013.jar" id="com.github.culmat.eexplorer.feature" version="1.0.0.201405182013" os="win32"/>
 </site>
