@@ -18,7 +18,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 public class SyncWithDirectorySelectionListener implements ISelectionListener {
 	private static final String PACKAGE_EXPLORER_ID = "org.eclipse.jdt.ui.PackageExplorer";
 	private static final String PROJECT_EXPLORER_ID = "org.eclipse.ui.navigator.ProjectExplorer";
-	private static final String[] IDS = new String[]{PROJECT_EXPLORER_ID,PACKAGE_EXPLORER_ID};
+	private static final String[] IDS = new String[] { PROJECT_EXPLORER_ID, PACKAGE_EXPLORER_ID };
 	private boolean enabled;
 	private final ISelectionService selectionService;
 	private final FileSelectionListener listener;
@@ -62,7 +62,8 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 	}
 
 	private void notifyListener(File file) {
-		if(file == null) return;
+		if (file == null)
+			return;
 		if (!file.isDirectory())
 			file = file.getParentFile();
 		if (file.equals(lastSelection))
@@ -76,18 +77,18 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 			return;
 		this.enabled = enabled;
 		if (enabled) {
-			for (String id   : IDS) {
-				selectionService.addPostSelectionListener(id, this);				
+			for (String id : IDS) {
+				selectionService.addPostSelectionListener(id, this);
 			}
-			for (String id   : IDS) {
+			for (String id : IDS) {
 				ISelection selection = selectionService.getSelection(id);
-				if(selection != null) {
+				if (selection != null) {
 					selectionChanged(null, selection);
 					break;
 				}
 			}
 		} else {
-			for (String id   : IDS) {
+			for (String id : IDS) {
 				selectionService.removePostSelectionListener(id, this);
 			}
 		}

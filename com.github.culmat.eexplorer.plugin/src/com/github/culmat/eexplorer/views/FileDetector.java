@@ -6,11 +6,13 @@ import java.util.regex.Pattern;
 
 public class FileDetector {
 	static Pattern pattern = Pattern.compile("(?i)([\\w]\\:|\\\\)(\\\\[a-z_\\-\\s0-9\\.]+)+");
-	public static File detect(String haystack){
+
+	public static File detect(String haystack) {
 		Matcher matcher = pattern.matcher(haystack);
-		while(matcher.find()){
+		while (matcher.find()) {
 			File candidate = new File(matcher.group().trim());
-			if(candidate.exists()) return candidate;
+			if (candidate.exists())
+				return candidate;
 		}
 		return null;
 	}
