@@ -22,6 +22,7 @@ Features
 
 - sync with package explorer
 - sync with project explorer
+- pop out native explorer window
 
 
 Explorer is a tool many of us use every day and many of us customize to their needs, so it is 
