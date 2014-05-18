@@ -7,10 +7,17 @@
       <view
             name="Explorer"
             icon="icons/Windows_Explorer_Icon_16x16.png"
-            category="com.github.culmat.eexplorer"
             class="com.github.culmat.eexplorer.views.ExplorerView"
             id="com.github.culmat.eexplore.views.ExplorerView">
       </view>
    </extension>
-
+    <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="*">
+         <showInPart
+               id="com.github.culmat.eexplore.views.ExplorerView">
+         </showInPart>
+      </perspectiveExtension>
+   </extension>
 </plugin>

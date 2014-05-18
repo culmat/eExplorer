@@ -7,6 +7,8 @@ import java.net.URL;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.ole.win32.OleFrame;
@@ -15,13 +17,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.part.IShowInTarget;
+import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
 
 import com.github.culmat.eexplorer.Activator;
 import com.github.culmat.eexplorer.ExplorerClientSite;
 import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.FileSelectionListener;
 
-public class ExplorerView extends ViewPart implements FileSelectionListener {
+public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget {
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -116,6 +120,15 @@ public class ExplorerView extends ViewPart implements FileSelectionListener {
 	public void select(File selection) {
 		site.navigate(selection);
 
+	}
+
+	@Override
+	public boolean show(ShowInContext context) {
+		ISelection sel = context.getSelection();
+		if (sel instanceof IStructuredSelection) {
+			return selectionListener.show((IStructuredSelection) sel);
+		}
+		return false;
 	}
 
 }

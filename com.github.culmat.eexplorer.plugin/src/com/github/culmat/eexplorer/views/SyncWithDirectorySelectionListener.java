@@ -38,8 +38,12 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 		if (!enabled)
 			return;
 		IStructuredSelection sel = (IStructuredSelection) selection;
+		show(sel);
+	}
+
+	boolean show(IStructuredSelection sel) {
 		if (sel == null)
-			return;
+			return false;
 		@SuppressWarnings("rawtypes")
 		Iterator iterator = sel.iterator();
 		while (iterator.hasNext()) {
@@ -51,14 +55,17 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 					if (location != null) {
 						File file = location.toFile();
 						notifyListener(file);
-						return;
+						return true;
 					}
 				}
 				File fuzzy = detect(item.toString());
-				notifyListener(fuzzy);
-				return;
+				if(fuzzy != null) {
+					notifyListener(fuzzy);
+					return true;
+				}
 			}
 		}
+		return false;
 	}
 
 	private void notifyListener(File file) {
