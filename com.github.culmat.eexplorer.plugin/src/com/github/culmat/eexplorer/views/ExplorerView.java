@@ -11,7 +11,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
-import org.eclipse.swt.ole.win32.OleFrame;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -22,7 +22,6 @@ import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
 
 import com.github.culmat.eexplorer.Activator;
-import com.github.culmat.eexplorer.ExplorerClientSite;
 import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.FileSelectionListener;
 
 public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget {
@@ -32,7 +31,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	 */
 	public static final String ID = "com.github.culmat.eexplorer.views.ExplorerView";
 
-	private ExplorerClientSite site;
+	private Browser browser;
 
 	private SyncWithDirectorySelectionListener selectionListener;
 
@@ -57,9 +56,8 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	@Override
 	public void createPartControl(Composite parent) {
 		try {
-			OleFrame frame = new OleFrame(parent, SWT.NONE);
-			site = new ExplorerClientSite(frame);
-			site.navigate(new File("c:\\"));
+			browser = new Browser(parent, SWT.NONE);
+			browser.setUrl("file://c:/");
 		} catch (SWTError e) {
 			System.out.println("Unable to open activeX control");
 			return;
@@ -105,7 +103,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 
 			@Override
 			public void run() {
-				Program.launch(site.getLocationURL());
+				Program.launch(browser.getUrl());
 			}
 		};
 		return ret;
@@ -113,13 +111,12 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 
 	@Override
 	public void setFocus() {
-		site.setFocus();
+		browser.setFocus();
 	}
 
 	@Override
 	public void select(File selection) {
-		site.navigate(selection);
-
+		browser.setUrl(selection.toURI().toString());
 	}
 
 	@Override
