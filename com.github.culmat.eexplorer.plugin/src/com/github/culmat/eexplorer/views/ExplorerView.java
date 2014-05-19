@@ -3,8 +3,10 @@ package com.github.culmat.eexplorer.views;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.NumberFormat;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
@@ -12,6 +14,10 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.LocationEvent;
+import org.eclipse.swt.browser.LocationListener;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -23,6 +29,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import com.github.culmat.eexplorer.Activator;
 import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.FileSelectionListener;
+import com.github.culmat.eexplorer.views.UIBrowserAction.Icon;
 
 public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget {
 
@@ -63,7 +70,24 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			System.out.println("Unable to open activeX control");
 			return;
 		}
-		registerActions(createPopOutAction(), createSyncAction());
+		final Action forwardAction = createForwardAction();
+		final Action backAction = createBackWardAction();
+		browser.addLocationListener(new LocationListener() {
+			@Override
+			public void changed(LocationEvent event) {
+				if (!event.top)
+					return;
+				forwardAction.setEnabled(browser.isForwardEnabled());
+				backAction.setEnabled(browser.isBackEnabled());
+				setStatus();
+			}
+
+			@Override
+			public void changing(LocationEvent event) {
+			}
+		});
+		//TODO focus view when browser gets focus
+		registerActions(backAction, forwardAction, createPopOutAction(), createSyncAction());
 	}
 
 	private void registerActions(Action... actions) {
@@ -74,26 +98,42 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	}
 
 	private Action createSyncAction() {
-		Action syncAction = new Action("Link with Package Explorer", SWT.TOGGLE) {
+		return new UIBrowserAction("Link with Package Explorer", SWT.TOGGLE, Icon.synced) {
 			{
-				try {
-					String imgDisabled = "platform:/plugin/org.eclipse.ui.browser/icons/dlcl16/synced.gif";
-					setDisabledImageDescriptor(ImageDescriptor.createFromURL(new URL(imgDisabled)));
-					String imgEnabled = "platform:/plugin/org.eclipse.ui.browser/icons/elcl16/synced.gif";
-					setImageDescriptor(ImageDescriptor.createFromURL(new URL(imgEnabled)));
-				} catch (MalformedURLException e1) {
-					e1.printStackTrace();
-				}
+				setChecked(true);
 			}
-
 			@Override
 			public void setChecked(boolean checked) {
 				super.setChecked(checked);
 				selectionListener.setEnabled(checked);
 			}
 		};
-		syncAction.setChecked(true);
-		return syncAction;
+	}
+
+	private Action createBackWardAction() {
+		return  new UIBrowserAction("Back", Icon.nav_backward) {
+			{
+				setEnabled(browser.isBackEnabled());
+			}
+
+			@Override
+			public void run() {
+				browser.back();
+			}
+		};
+	}
+
+	private Action createForwardAction() {
+		return new UIBrowserAction("Forward", Icon.nav_forward) {
+			{
+				setEnabled(browser.isForwardEnabled());
+			}
+
+			@Override
+			public void run() {
+				browser.forward();
+			}
+		};
 	}
 
 	private Action createPopOutAction() {
@@ -127,6 +167,11 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			return selectionListener.show((IStructuredSelection) sel);
 		}
 		return false;
+	}
+
+	private void setStatus() {
+		IStatusLineManager statusLine = ExplorerView.this.getViewSite().getActionBars().getStatusLineManager();
+		statusLine.setMessage(browser.getUrl().replaceFirst("file:///", ""));
 	}
 
 }
