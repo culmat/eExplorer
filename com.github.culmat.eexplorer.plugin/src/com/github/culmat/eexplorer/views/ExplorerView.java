@@ -51,6 +51,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	public void dispose() {
 		super.dispose();
 		selectionListener.setEnabled(false);
+		browser.dispose();
 	}
 
 	@Override
