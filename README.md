@@ -24,6 +24,7 @@ Features
 - sync with project explorer
 - pop out native explorer window
 - browsing history
+- <kbd>Alt+Shift+W<kbd> (or right-click "Show In" menu) to open Explorer View for selected folder/package
 
 Explorer is a tool many of us use every day and many of us customize to their needs, so it is 
 only natural we long for an easy integration in Eclipse. 
