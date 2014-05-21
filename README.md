@@ -1,4 +1,4 @@
-eExplorer
+![eExplorer icon](http://marketplace.eclipse.org/sites/default/files/styles/ds_medium/public/eExplorer_Icon.png) eExplorer
 =========
 
 <table style="border: none; width:100%">
