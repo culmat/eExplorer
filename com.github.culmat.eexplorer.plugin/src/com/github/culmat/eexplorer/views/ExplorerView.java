@@ -1,23 +1,29 @@
 package com.github.culmat.eexplorer.views;
 
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.NumberFormat;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLDecoder;
+
+import nu.bibi.breadcrumb.IMenuSelectionListener;
+import nu.bibi.breadcrumb.MenuSelectionEvent;
+import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.LocationEvent;
 import org.eclipse.swt.browser.LocationListener;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -33,6 +39,8 @@ import com.github.culmat.eexplorer.views.UIBrowserAction.Icon;
 
 public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget {
 
+	private final File FILE_DEFAULT = new File("c:");
+
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
@@ -41,6 +49,8 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	private Browser browser;
 
 	private SyncWithDirectorySelectionListener selectionListener;
+
+	private FileBreadcrumbViewer breadcrumb;
 
 	@Override
 	public void init(IViewSite site) throws PartInitException {
@@ -60,16 +70,21 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		selectionListener.setEnabled(false);
 		browser.dispose();
 	}
-
+	
 	@Override
 	public void createPartControl(Composite parent) {
+		final GridLayout layout = new GridLayout();
+		layout.marginHeight = layout.marginWidth = 0;
+		parent.setLayout(layout);
+		createBreadcrumb(parent);
 		try {
 			browser = new Browser(parent, SWT.NONE);
-			browser.setUrl("file://c:/");
+			browser.setUrl(FILE_DEFAULT.toURI().toString());
 		} catch (SWTError e) {
 			System.out.println("Unable to open activeX control");
 			return;
 		}
+		browser.setLayoutData(new GridData(GridData.FILL_VERTICAL|GridData.FILL_HORIZONTAL));
 		final Action forwardAction = createForwardAction();
 		final Action backAction = createBackWardAction();
 		browser.addLocationListener(new LocationListener() {
@@ -79,6 +94,14 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 					return;
 				forwardAction.setEnabled(browser.isForwardEnabled());
 				backAction.setEnabled(browser.isBackEnabled());
+				try {
+					File selection = new File(new URI(event.location));
+					breadcrumb.setInput(selection);
+					IStructuredSelection selection2 = new StructuredSelection(selection);
+					breadcrumb.setSelection(selection2, false);
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
 				setStatus();
 			}
 
@@ -88,6 +111,45 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		});
 		//TODO focus view when browser gets focus
 		registerActions(backAction, forwardAction, createPopOutAction(), createSyncAction());
+	}
+
+	private void createBreadcrumb(Composite parent) {
+		breadcrumb = new FileBreadcrumbViewer(parent, SWT.NONE);
+		breadcrumb.getControl().setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		breadcrumb.addMenuSelectionListener(new IMenuSelectionListener() {
+			@Override
+			public void menuSelect(final MenuSelectionEvent event) {
+				final IStructuredSelection selection = (IStructuredSelection) event
+						.getSelection();
+				if (selection.isEmpty()) {
+					return;
+				}
+				Object firstElement = selection.getFirstElement();
+				breadcrumb.setInput(firstElement);
+				breadcrumb.setSelection(selection, false);
+				if(firstElement instanceof File) {
+					select((File) firstElement);
+				}
+			}
+		});
+
+		breadcrumb.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(final DoubleClickEvent event) {
+				// get selection
+				Object element = breadcrumb.getSelection().getFirstElement();
+				if (element == null) {
+					return;
+				}
+				if (element instanceof File) {
+					select((File)element);
+				}
+				
+			}
+		});
+
+		breadcrumb.setRootVisible(false);
+		breadcrumb.setInput(FILE_DEFAULT);
 	}
 
 	private void registerActions(Action... actions) {
@@ -171,7 +233,8 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 
 	private void setStatus() {
 		IStatusLineManager statusLine = ExplorerView.this.getViewSite().getActionBars().getStatusLineManager();
-		statusLine.setMessage(browser.getUrl().replaceFirst("file:///", ""));
+		String absolutePath = new File(browser.getUrl()).getAbsolutePath();
+		statusLine.setMessage(URLDecoder.decode(absolutePath));
 	}
 
 }
