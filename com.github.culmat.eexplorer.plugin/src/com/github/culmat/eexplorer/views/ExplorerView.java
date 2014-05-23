@@ -136,7 +136,6 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		breadcrumb.addDoubleClickListener(new IDoubleClickListener() {
 			@Override
 			public void doubleClick(final DoubleClickEvent event) {
-				// get selection
 				Object element = breadcrumb.getSelection().getFirstElement();
 				if (element == null) {
 					return;
