@@ -10,8 +10,10 @@ import nu.bibi.breadcrumb.MenuSelectionEvent;
 import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -29,6 +31,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.contexts.IContextService;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
@@ -38,13 +42,15 @@ import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.File
 import com.github.culmat.eexplorer.views.UIBrowserAction.Icon;
 
 public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget {
-
+	
 	private final File FILE_DEFAULT = new File("c:");
 
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "com.github.culmat.eexplorer.views.ExplorerView";
+
+	private static final String CONTEXT_ID = "com.github.culmat.eexplorer.context";
 
 	private Browser browser;
 
@@ -73,6 +79,12 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	
 	@Override
 	public void createPartControl(Composite parent) {
+		
+		// --- Register context to separate keybindings form standard eclipse (see plugin.xml)
+		IContextService contextService = (IContextService)getSite().getService(IContextService.class);
+		contextService.activateContext(CONTEXT_ID);
+		
+		
 		final GridLayout layout = new GridLayout();
 		layout.marginHeight = layout.marginWidth = 0;
 		parent.setLayout(layout);
@@ -85,8 +97,8 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			return;
 		}
 		browser.setLayoutData(new GridData(GridData.FILL_VERTICAL|GridData.FILL_HORIZONTAL));
-		final Action forwardAction = createForwardAction();
-		final Action backAction = createBackWardAction();
+		final IAction forwardAction = createForwardAction();
+		final IAction backAction = createBackWardAction();
 		browser.addLocationListener(new LocationListener() {
 			@Override
 			public void changed(LocationEvent event) {
@@ -151,9 +163,9 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		breadcrumb.setInput(FILE_DEFAULT);
 	}
 
-	private void registerActions(Action... actions) {
+	private void registerActions(IAction... actions) {
 		IToolBarManager toolBar = getViewSite().getActionBars().getToolBarManager();
-		for (Action action : actions) {
+		for (IAction action : actions) {
 			toolBar.add(action);
 		}
 	}
@@ -171,8 +183,8 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		};
 	}
 
-	private Action createBackWardAction() {
-		return  new UIBrowserAction("Back", Icon.nav_backward) {
+	private IAction createBackWardAction() {
+		return registerKey(new UIBrowserAction("Back", Icon.nav_backward) {
 			{
 				setEnabled(browser.isBackEnabled());
 			}
@@ -181,11 +193,20 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			public void run() {
 				browser.back();
 			}
-		};
+
+		});
 	}
 
-	private Action createForwardAction() {
-		return new UIBrowserAction("Forward", Icon.nav_forward) {
+	private IAction registerKey(IAction action) {
+		action.setActionDefinitionId("com.github.culmat.eexplorer.cmd."+action.getText().toLowerCase().replace(' ', '_'));
+		IHandlerService handlerService = (IHandlerService)getSite().getService(IHandlerService.class);
+		handlerService.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
+		return action;
+	
+	}
+	
+	private IAction createForwardAction() {
+		return registerKey(new UIBrowserAction("Forward", Icon.nav_forward) {
 			{
 				setEnabled(browser.isForwardEnabled());
 			}
@@ -194,11 +215,11 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			public void run() {
 				browser.forward();
 			}
-		};
+		});
 	}
 
-	private Action createPopOutAction() {
-		Action ret = new Action("Open native explorer window") {
+	private IAction createPopOutAction() {
+		return registerKey(new Action("Open native explorer window") {
 			{
 				setImageDescriptor(Activator.getImageDescriptor("icons/Windows_Explorer_Icon_16x16.png"));
 			}
@@ -207,8 +228,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			public void run() {
 				Program.launch(browser.getUrl());
 			}
-		};
-		return ret;
+		});
 	}
 
 	@Override

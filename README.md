@@ -25,6 +25,10 @@ Features
 - pop out native explorer window
 - browsing history
 - <kbd>Alt+Shift+W</kbd> (or right-click "Show In" menu) to open Explorer View for selected folder/package
+- Short cuts 
+    - <kbd>Alt+←</kbd> Back in history
+    - <kbd>Alt+→</kbd> Forward  in history
+    - <kbd>Alt+O</kbd> pop out native explorer window
 
 Explorer is a tool many of us use every day and many of us customize to their needs, so it is 
 only natural we long for an easy integration in Eclipse. 

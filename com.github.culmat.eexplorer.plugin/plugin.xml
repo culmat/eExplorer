@@ -20,4 +20,55 @@
          </showInPart>
       </perspectiveExtension>
    </extension>
+      <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="com.github.culmat.eexplorer.cmd.back"
+            contextId="com.github.culmat.eexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M3+ARROW_LEFT">
+      </key>
+       <key
+            commandId="com.github.culmat.eexplorer.cmd.forward"
+            contextId="com.github.culmat.eexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M3+ARROW_RIGHT">
+      </key>
+       <key
+            commandId="com.github.culmat.eexplorer.cmd.open_native_explorer_window"
+            contextId="com.github.culmat.eexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M3+O">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="com.github.culmat.eexplorer.cmd"
+            name="eExplorer Commands">
+      </category>
+      <command
+            categoryId="com.github.culmat.eexplorer.cmd"
+            id="com.github.culmat.eexplorer.cmd.back"
+            name="Back">
+      </command>
+      <command
+            categoryId="com.github.culmat.eexplorer.cmd"
+            id="com.github.culmat.eexplorer.cmd.forward"
+            name="Forward">
+      </command>
+       <command
+            categoryId="com.github.culmat.eexplorer.cmd"
+            id="com.github.culmat.eexplorer.cmd.open_native_explorer_window"
+            name="Open native explorer window">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.contexts">
+      <context
+            id="com.github.culmat.eexplorer.context"
+            name="eExplorer"
+            parentId="org.eclipse.ui.contexts.window">
+      </context>
+   </extension>
 </plugin>
