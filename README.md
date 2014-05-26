@@ -15,6 +15,7 @@
   </tbody>
 </table>
 
+or use `http://culmat.github.io/eExplorer/updatesite/` in Help -> Install New Software ... Dialog.
 
 **eExplorer** is an Eclipse plugin to embed Windows Explorer and keep it in sync with your work.
 
