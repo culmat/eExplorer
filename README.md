@@ -5,12 +5,12 @@
   <tbody>
     <tr style="border:none;">
       <td style="vertical-align: middle; padding-top: 10px; border: none;">
-        <a href="http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=1629575" title="Drag and drop into a running Eclipse workspace to install eExplorer">
+        <a href="http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=1629575" title="Drag and drop onto a running Eclipse Main Toolbar to install eExplorer">
           <img src="http://marketplace.eclipse.org/misc/installbutton.png">
         </a>
       </td>
       <td style="vertical-align: middle; text-align: left; border: none;">
-        ← Drag it to your eclipse workbench to install! (I recommand Main Toolbar as Drop Target)</td>
+        ← Drag it to your eclipse workbench to install! (I recommend Main Toolbar as Drop Target)</td>
     </tr>
   </tbody>
 </table>
