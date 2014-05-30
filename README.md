@@ -45,6 +45,7 @@ I hope you like eExplorer - you can [request features and report issues](https:/
 - [open explorer plugins](http://marketplace.eclipse.org/search/site/open%2520explorer)
 
 
+Contributing
+============
 
-
-
+[Pull requests](http://help.github.com/send-pull-requests) are welcome.
