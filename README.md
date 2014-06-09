@@ -1,5 +1,4 @@
-![eExplorer icon](http://marketplace.eclipse.org/sites/default/files/styles/ds_medium/public/eExplorer_Icon.png) eExplorer
-=========
+# ![eExplorer icon](http://marketplace.eclipse.org/sites/default/files/styles/ds_medium/public/eExplorer_Icon.png) eExplorer
 
 <table style="border: none; width:100%">
   <tbody>
@@ -19,7 +18,7 @@ or use `http://culmat.github.io/eExplorer/updatesite/` in Help -> Install New So
 
 **eExplorer** is an Eclipse plugin to embed Windows Explorer and keep it in sync with your work.
 
-Features
+#### Features
 
 - sync with package explorer
 - sync with project explorer
@@ -45,7 +44,6 @@ I hope you like eExplorer - you can [request features and report issues](https:/
 - [open explorer plugins](http://marketplace.eclipse.org/search/site/open%2520explorer)
 
 
-Contributing
-============
+#### Contributing
 
 [Pull requests](http://help.github.com/send-pull-requests) are welcome.
