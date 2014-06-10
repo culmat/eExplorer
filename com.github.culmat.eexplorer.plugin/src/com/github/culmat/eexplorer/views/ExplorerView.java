@@ -42,7 +42,7 @@ import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.File
 import com.github.culmat.eexplorer.views.UIBrowserAction.Icon;
 
 public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget {
-	
+
 	private final File FILE_DEFAULT = new File("c:");
 
 	/**
@@ -76,15 +76,15 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		selectionListener.setEnabled(false);
 		browser.dispose();
 	}
-	
+
 	@Override
 	public void createPartControl(Composite parent) {
-		
-		// --- Register context to separate keybindings form standard eclipse (see plugin.xml)
-		IContextService contextService = (IContextService)getSite().getService(IContextService.class);
+
+		// --- Register context to separate keybindings form standard eclipse
+		// (see plugin.xml)
+		IContextService contextService = (IContextService) getSite().getService(IContextService.class);
 		contextService.activateContext(CONTEXT_ID);
-		
-		
+
 		final GridLayout layout = new GridLayout();
 		layout.marginHeight = layout.marginWidth = 0;
 		parent.setLayout(layout);
@@ -96,33 +96,30 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			System.out.println("Unable to open activeX control");
 			return;
 		}
-		browser.setLayoutData(new GridData(GridData.FILL_VERTICAL|GridData.FILL_HORIZONTAL));
+		browser.setLayoutData(new GridData(GridData.FILL_VERTICAL | GridData.FILL_HORIZONTAL));
 		final IAction forwardAction = createForwardAction();
 		final IAction backAction = createBackWardAction();
-		browser.addLocationListener(new LocationListener() {
+		browser.addLocationListener(new BrowserLocationListener() {
 			@Override
-			public void changed(LocationEvent event) {
-				if (!event.top)
-					return;
+			public void changed(File file, IStructuredSelection selection) {
 				forwardAction.setEnabled(browser.isForwardEnabled());
 				backAction.setEnabled(browser.isBackEnabled());
-				try {
-					File selection = new File(new URI(event.location));
-					breadcrumb.setInput(selection);
-					IStructuredSelection selection2 = new StructuredSelection(selection);
-					breadcrumb.setSelection(selection2, false);
-				} catch (URISyntaxException e) {
-					e.printStackTrace();
-				}
 				setStatus();
-			}
-
-			@Override
-			public void changing(LocationEvent event) {
+				breadcrumb.setInput(file);
+				breadcrumb.setSelection(selection, false);
 			}
 		});
-		//TODO focus view when browser gets focus
-		registerActions(backAction, forwardAction, createPopOutAction(), createSyncAction());
+
+	
+		// TODO focus view when browser gets focus
+		final IAction upAction = createUpAction();
+		browser.addLocationListener(new BrowserLocationListener() {
+			@Override
+			public void changed(File file, IStructuredSelection selection) {
+				upAction.setEnabled(file.getParentFile() != null);
+			}
+		});
+		registerActions(backAction, upAction, forwardAction, createPopOutAction(), createSyncAction());
 	}
 
 	private void createBreadcrumb(Composite parent) {
@@ -131,15 +128,14 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		breadcrumb.addMenuSelectionListener(new IMenuSelectionListener() {
 			@Override
 			public void menuSelect(final MenuSelectionEvent event) {
-				final IStructuredSelection selection = (IStructuredSelection) event
-						.getSelection();
+				final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 				if (selection.isEmpty()) {
 					return;
 				}
 				Object firstElement = selection.getFirstElement();
 				breadcrumb.setInput(firstElement);
 				breadcrumb.setSelection(selection, false);
-				if(firstElement instanceof File) {
+				if (firstElement instanceof File) {
 					select((File) firstElement);
 				}
 			}
@@ -153,9 +149,9 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 					return;
 				}
 				if (element instanceof File) {
-					select((File)element);
+					select((File) element);
 				}
-				
+
 			}
 		});
 
@@ -175,6 +171,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			{
 				setChecked(true);
 			}
+
 			@Override
 			public void setChecked(boolean checked) {
 				super.setChecked(checked);
@@ -197,14 +194,38 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		});
 	}
 
-	private IAction registerKey(IAction action) {
-		action.setActionDefinitionId("com.github.culmat.eexplorer.cmd."+action.getText().toLowerCase().replace(' ', '_'));
-		IHandlerService handlerService = (IHandlerService)getSite().getService(IHandlerService.class);
-		handlerService.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
-		return action;
-	
+	private IAction createUpAction() {
+		return registerKey(new Action("Up") {
+			{
+				setImageDescriptor(Activator.getImageDescriptor("icons/nav_up.gif"));
+				setDisabledImageDescriptor(Activator.getImageDescriptor("icons/nav_up_dis.gif"));
+			}
+
+			@Override
+			public void run() {
+				select(getBrowserLocation().getParentFile());
+			}
+		});
+	}
+
+	private File getBrowserLocation() {
+		String url = browser.getUrl();
+		try {
+			return new File(new URI(url));
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
+	private IAction registerKey(IAction action) {
+		action.setActionDefinitionId("com.github.culmat.eexplorer.cmd." + action.getText().toLowerCase().replace(' ', '_'));
+		IHandlerService handlerService = (IHandlerService) getSite().getService(IHandlerService.class);
+		handlerService.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
+		return action;
+
+	}
+
 	private IAction createForwardAction() {
 		return registerKey(new UIBrowserAction("Forward", Icon.nav_forward) {
 			{
@@ -252,7 +273,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 
 	private void setStatus() {
 		IStatusLineManager statusLine = ExplorerView.this.getViewSite().getActionBars().getStatusLineManager();
-		String absolutePath = new File(browser.getUrl()).getAbsolutePath();
+		String absolutePath = getBrowserLocation().getAbsolutePath();
 		statusLine.setMessage(URLDecoder.decode(absolutePath));
 	}
 

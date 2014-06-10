@@ -35,6 +35,12 @@
             sequence="M3+ARROW_RIGHT">
       </key>
        <key
+            commandId="com.github.culmat.eexplorer.cmd.up"
+            contextId="com.github.culmat.eexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M3+ARROW_UP">
+      </key>
+       <key
             commandId="com.github.culmat.eexplorer.cmd.open_native_explorer_window"
             contextId="com.github.culmat.eexplorer.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
@@ -56,6 +62,11 @@
             categoryId="com.github.culmat.eexplorer.cmd"
             id="com.github.culmat.eexplorer.cmd.forward"
             name="Forward">
+      </command>
+      <command
+            categoryId="com.github.culmat.eexplorer.cmd"
+            id="com.github.culmat.eexplorer.cmd.up"
+            name="Up">
       </command>
        <command
             categoryId="com.github.culmat.eexplorer.cmd"
