@@ -27,7 +27,7 @@ or use `http://culmat.github.io/eExplorer/updatesite/` in Help -> Install New So
 - <kbd>Alt+Shift+W</kbd> (or right-click "Show In" menu) to open Explorer View for selected folder/package
 - Short cuts 
     - <kbd>Alt+←</kbd> Back in history
-    - <kbd>Alt+↑</kbd> Up one level
+    - <kbd>Alt+↑</kbd> ![](com.github.culmat.eexplorer.plugin/icons/nav_up.gif) Up one level
     - <kbd>Alt+→</kbd> Forward  in history
     - <kbd>Alt+O</kbd> pop out native explorer window
 
