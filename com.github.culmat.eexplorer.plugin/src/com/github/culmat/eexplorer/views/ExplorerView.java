@@ -9,6 +9,7 @@ import nu.bibi.breadcrumb.IMenuSelectionListener;
 import nu.bibi.breadcrumb.MenuSelectionEvent;
 import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
@@ -18,12 +19,9 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.LocationEvent;
-import org.eclipse.swt.browser.LocationListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
@@ -43,7 +41,7 @@ import com.github.culmat.eexplorer.views.UIBrowserAction.Icon;
 
 public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget {
 
-	private final File FILE_DEFAULT = new File("c:");
+	private File defaultFile;
 
 	/**
 	 * The ID of the view as specified by the extension.
@@ -79,7 +77,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 
 	@Override
 	public void createPartControl(Composite parent) {
-
+		defaultFile =  ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile();
 		// --- Register context to separate keybindings form standard eclipse
 		// (see plugin.xml)
 		IContextService contextService = (IContextService) getSite().getService(IContextService.class);
@@ -91,7 +89,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		createBreadcrumb(parent);
 		try {
 			browser = new Browser(parent, SWT.NONE);
-			browser.setUrl(FILE_DEFAULT.toURI().toString());
+			browser.setUrl(defaultFile.toURI().toString());
 		} catch (SWTError e) {
 			System.out.println("Unable to open activeX control");
 			return;
@@ -156,7 +154,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		});
 
 		breadcrumb.setRootVisible(false);
-		breadcrumb.setInput(FILE_DEFAULT);
+		breadcrumb.setInput(defaultFile);
 	}
 
 	private void registerActions(IAction... actions) {
