@@ -9,12 +9,14 @@ import nu.bibi.breadcrumb.IMenuSelectionListener;
 import nu.bibi.breadcrumb.MenuSelectionEvent;
 import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
 
+import org.eclipse.core.internal.resources.Marker;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.commands.ActionHandler;
+import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -31,6 +33,7 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.handlers.IHandlerService;
+import org.eclipse.ui.internal.forms.widgets.TextSegment;
 import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
@@ -265,6 +268,13 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		ISelection sel = context.getSelection();
 		if (sel instanceof IStructuredSelection) {
 			return selectionListener.show((IStructuredSelection) sel);
+		}
+		if (sel instanceof ITextSelection) {
+			ITextSelection textSel = (ITextSelection) sel;
+			File detected = FileDetector.detect(textSel.getText());
+			if(detected !=null) {
+				return selectionListener.notifyListener(detected);
+			}
 		}
 		return false;
 	}

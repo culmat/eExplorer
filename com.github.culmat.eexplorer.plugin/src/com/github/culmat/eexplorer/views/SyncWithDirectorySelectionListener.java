@@ -68,15 +68,16 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 		return false;
 	}
 
-	private void notifyListener(File file) {
+	boolean notifyListener(File file) {
 		if (file == null)
-			return;
+			return false;
 		if (!file.isDirectory())
 			file = file.getParentFile();
 		if (file.equals(lastSelection))
-			return;
+			return false;
 		lastSelection = file;
 		listener.select(file);
+		return true;
 	}
 
 	public void setEnabled(boolean enabled) {
