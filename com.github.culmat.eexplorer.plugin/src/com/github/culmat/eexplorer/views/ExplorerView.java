@@ -3,6 +3,7 @@ package com.github.culmat.eexplorer.views;
 import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLDecoder;
 
 import nu.bibi.breadcrumb.IMenuSelectionListener;
@@ -15,6 +16,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.commands.ActionHandler;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -151,7 +153,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			}
 		});
 		
-		registerActions(copyAction, pasteAction, backAction, upAction, forwardAction, createPopOutAction(), createSyncAction());
+		registerActions(copyAction, pasteAction, backAction, upAction, forwardAction, createPopOutAction(), createSyncAction(), createFileModeAction());
 	}
 
 	private void createBreadcrumb(Composite parent) {
@@ -208,6 +210,25 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			public void setChecked(boolean checked) {
 				super.setChecked(checked);
 				selectionListener.setEnabled(checked);
+			}
+		};
+	}
+	
+	private Action createFileModeAction() {
+		return new Action("Toggle file mode", SWT.TOGGLE) {
+			{
+				try {
+				URL url = new URL("platform:/plugin/org.eclipse.ui.ide/icons/full/obj16/welcome_editor.gif");
+				ImageDescriptor folder = ImageDescriptor.createFromURL(url );
+				setImageDescriptor(folder);
+				
+				} catch (Exception e){}
+			}
+
+			@Override
+			public void setChecked(boolean checked) {
+				super.setChecked(checked);
+				selectionListener.setFileMode(checked);
 			}
 		};
 	}
