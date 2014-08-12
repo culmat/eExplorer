@@ -9,7 +9,6 @@ import nu.bibi.breadcrumb.IMenuSelectionListener;
 import nu.bibi.breadcrumb.MenuSelectionEvent;
 import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
 
-import org.eclipse.core.internal.resources.Marker;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -29,16 +28,20 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.handlers.IHandlerService;
-import org.eclipse.ui.internal.forms.widgets.TextSegment;
 import org.eclipse.ui.part.IShowInTarget;
 import org.eclipse.ui.part.ShowInContext;
 import org.eclipse.ui.part.ViewPart;
 
 import com.github.culmat.eexplorer.Activator;
+import com.github.culmat.eexplorer.actions.CopyAction;
+import com.github.culmat.eexplorer.actions.PasteAction;
 import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.FileSelectionListener;
 import com.github.culmat.eexplorer.views.UIBrowserAction.Icon;
 
@@ -58,6 +61,9 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	private SyncWithDirectorySelectionListener selectionListener;
 
 	private FileBreadcrumbViewer breadcrumb;
+	
+	private PasteAction pasteAction;
+	private CopyAction  copyAction;
 
 	@Override
 	public void init(IViewSite site) throws PartInitException {
@@ -69,17 +75,33 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 				selectionListener.setEnabled(true);
 			}
 		});
+		pasteAction = new PasteAction(Display.getDefault(),selectionListener,site.getWorkbenchWindow());
+		registerKey(pasteAction);
+		copyAction  = new CopyAction(Display.getDefault(),site.getWorkbenchWindow());
+		registerKey(copyAction);
 	}
 
 	@Override
-	public void dispose() {
+	public void dispose() {	
 		super.dispose();
 		selectionListener.setEnabled(false);
 		browser.dispose();
+		pasteAction.dispose();
+		copyAction.dispose();
 	}
 
 	@Override
 	public void createPartControl(Composite parent) {
+		IActionBars actionBars= getViewSite().getActionBars();
+		actionBars.setGlobalActionHandler(
+		      ActionFactory.COPY.getId(),
+		      copyAction
+		      );
+		actionBars.setGlobalActionHandler(
+				ActionFactory.PASTE.getId(),
+				pasteAction
+				);
+		
 		defaultFile =  ResourcesPlugin.getWorkspace().getRoot().getLocation().toFile();
 		// --- Register context to separate keybindings form standard eclipse
 		// (see plugin.xml)
@@ -120,7 +142,16 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 				upAction.setEnabled(file.getParentFile() != null);
 			}
 		});
-		registerActions(backAction, upAction, forwardAction, createPopOutAction(), createSyncAction());
+		
+		browser.addLocationListener(new BrowserLocationListener() {
+			@Override
+			public void changed(File file, IStructuredSelection selection) {
+				copyAction.setClipboard(file);
+				selectionListener.setLastSelection(file);
+			}
+		});
+		
+		registerActions(copyAction, pasteAction, backAction, upAction, forwardAction, createPopOutAction(), createSyncAction());
 	}
 
 	private void createBreadcrumb(Composite parent) {
@@ -219,7 +250,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		}
 	}
 	
-	private IAction registerKey(IAction action) {
+	private <T extends IAction> T registerKey(T action) {
 		action.setActionDefinitionId("com.github.culmat.eexplorer.cmd." + action.getText().toLowerCase().replace(' ', '_'));
 		IHandlerService handlerService = (IHandlerService) getSite().getService(IHandlerService.class);
 		handlerService.activateHandler(action.getActionDefinitionId(), new ActionHandler(action));
@@ -261,6 +292,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	@Override
 	public void select(File selection) {
 		browser.setUrl(selection.toURI().toString());
+		copyAction.setClipboard(selection);
 	}
 
 	@Override

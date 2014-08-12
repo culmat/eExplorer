@@ -41,6 +41,18 @@
             sequence="M3+ARROW_UP">
       </key>
        <key
+            commandId="com.github.culmat.eexplorer.cmd.copy"
+            contextId="com.github.culmat.eexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M3+C">
+      </key>
+       <key
+            commandId="com.github.culmat.eexplorer.cmd.paste"
+            contextId="com.github.culmat.eexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M3+V">
+      </key>
+       <key
             commandId="com.github.culmat.eexplorer.cmd.open_native_explorer_window"
             contextId="com.github.culmat.eexplorer.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
@@ -68,7 +80,17 @@
             id="com.github.culmat.eexplorer.cmd.up"
             name="Up">
       </command>
-       <command
+      <command
+            categoryId="com.github.culmat.eexplorer.cmd"
+            id="com.github.culmat.eexplorer.cmd.copy"
+            name="Copy">
+      </command>
+      <command
+            categoryId="com.github.culmat.eexplorer.cmd"
+            id="com.github.culmat.eexplorer.cmd.paste"
+            name="Paste">
+      </command>
+      <command
             categoryId="com.github.culmat.eexplorer.cmd"
             id="com.github.culmat.eexplorer.cmd.open_native_explorer_window"
             name="Open native explorer window">

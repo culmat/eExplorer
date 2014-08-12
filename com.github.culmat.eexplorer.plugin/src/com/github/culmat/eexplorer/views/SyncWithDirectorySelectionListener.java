@@ -24,6 +24,14 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 	private final FileSelectionListener listener;
 	private File lastSelection;
 
+	public File getLastSelection() {
+		return lastSelection;
+	}
+
+	public void setLastSelection(File lastSelection) {
+		this.lastSelection = lastSelection;
+	}
+
 	public static interface FileSelectionListener {
 		void select(File selection);
 	}
@@ -68,12 +76,14 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 		return false;
 	}
 
-	boolean notifyListener(File file) {
+	public boolean notifyListener(File file) {
 		if (file == null)
 			return false;
 		if (!file.isDirectory())
 			file = file.getParentFile();
 		if (file.equals(lastSelection))
+			return false;
+		if (!file.exists())
 			return false;
 		lastSelection = file;
 		listener.select(file);
