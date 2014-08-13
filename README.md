@@ -27,6 +27,8 @@ or use `http://culmat.github.io/eExplorer/updatesite/` in Help -> Install New So
 - browsing history
 - <kbd>Alt+Shift+W</kbd> (or right-click "Show In" menu) to open Explorer View for selected folder/package
 - Short cuts 
+    - <kbd>Alt+C</kbd> Copy path (e.g. to Bookmark)
+    - <kbd>Alt+V</kbd> Paste path (e.g. Go back to bookmakr)
     - <kbd>Alt+←</kbd> Back in history
     - <kbd>Alt+↑</kbd> Up one level
     - <kbd>Alt+→</kbd> Forward  in history
