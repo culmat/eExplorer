@@ -83,12 +83,12 @@
       <command
             categoryId="com.github.culmat.eexplorer.cmd"
             id="com.github.culmat.eexplorer.cmd.copy"
-            name="Copy">
+            name="Copy Path">
       </command>
       <command
             categoryId="com.github.culmat.eexplorer.cmd"
             id="com.github.culmat.eexplorer.cmd.paste"
-            name="Paste">
+            name="Paste Path">
       </command>
       <command
             categoryId="com.github.culmat.eexplorer.cmd"
