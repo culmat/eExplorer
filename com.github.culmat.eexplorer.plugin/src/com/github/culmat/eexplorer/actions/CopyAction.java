@@ -16,7 +16,7 @@ public class CopyAction extends Action {
 	private String clipboardtext;
 	public CopyAction(Display display, IWorkbenchWindow window) {
 		cb = new Clipboard(display);
-		setText("Copy");
+		setText("Copy Path");
 		IWorkbenchAction tmp = ActionFactory.COPY.create(window);
 		setImageDescriptor(tmp.getImageDescriptor());
 		setDisabledImageDescriptor(tmp.getDisabledImageDescriptor());

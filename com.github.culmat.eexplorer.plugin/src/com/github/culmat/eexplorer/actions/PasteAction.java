@@ -22,7 +22,7 @@ public class PasteAction extends Action {
 	public PasteAction(Display display, SyncWithDirectorySelectionListener listener, IWorkbenchWindow window) {
 		this.listener = listener;
 		cb = new Clipboard(display);
-		setText("Paste");
+		setText("Paste Path");
 		IWorkbenchAction tmp = ActionFactory.PASTE.create(window);
 		setImageDescriptor(tmp.getImageDescriptor());
 		setDisabledImageDescriptor(tmp.getDisabledImageDescriptor());
