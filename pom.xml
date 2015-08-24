@@ -22,11 +22,6 @@
 			<url>${repo.url}</url>
 			<layout>p2</layout>
 		</repository>
-		<repository>
-			<id>egit</id>
-			<url>http://download.eclipse.org/egit/updates/</url>
-			<layout>p2</layout>
-		</repository>
 	</repositories>
 
 	<modules>
