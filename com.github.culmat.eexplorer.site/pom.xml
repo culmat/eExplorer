@@ -18,13 +18,13 @@
 			<plugin>
 				<groupId>com.github.github</groupId>
 				<artifactId>site-maven-plugin</artifactId>
-				<version>0.9</version>
+				<version>0.12</version>
 				<configuration>
 					<repositoryOwner>culmat</repositoryOwner>
 					<repositoryName>eExplorer</repositoryName>
 					<message>Releasing update site for ${project.version}</message>
 					<path>updatesite</path>
-					<oauth2Token>${env.github.oauth2Token}</oauth2Token>
+					<oauth2Token>${env.github_oauth2Token}</oauth2Token>
 				</configuration>
 				<executions>
 					<execution>
