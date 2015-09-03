@@ -24,6 +24,7 @@
 					<repositoryName>eExplorer</repositoryName>
 					<message>Releasing update site for ${project.version}</message>
 					<path>updatesite</path>
+					<oauth2Token>${env.github.oauth2Token}</oauth2Token>
 				</configuration>
 				<executions>
 					<execution>
