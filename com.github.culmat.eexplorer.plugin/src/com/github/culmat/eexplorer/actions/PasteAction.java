@@ -2,8 +2,6 @@ package com.github.culmat.eexplorer.actions;
 
 import static com.github.culmat.eexplorer.views.FileDetector.detect;
 
-import java.io.File;
-
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
@@ -12,7 +10,6 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 
-import com.github.culmat.eexplorer.views.FileDetector;
 import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener;
 
 public class PasteAction extends Action {
