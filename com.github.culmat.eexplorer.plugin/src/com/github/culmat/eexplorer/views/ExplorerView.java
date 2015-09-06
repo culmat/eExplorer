@@ -9,6 +9,7 @@ import java.net.URLDecoder;
 import nu.bibi.breadcrumb.IMenuSelectionListener;
 import nu.bibi.breadcrumb.MenuSelectionEvent;
 import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
+import nu.bibi.breadcrumb.files.ImageFileRegistry;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
@@ -295,7 +296,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	private IAction createPopOutAction() {
 		return registerKey(new Action("Open native explorer window") {
 			{
-				setImageDescriptor(Activator.getImageDescriptor("icons/Windows_Explorer_Icon_16x16.png"));
+				setImageDescriptor(ImageFileRegistry.getResource(ImageFileRegistry.KEY_FOLDER_DEFAULT));
 			}
 
 			@Override
