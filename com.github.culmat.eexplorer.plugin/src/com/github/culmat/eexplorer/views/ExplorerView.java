@@ -35,7 +35,6 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.IShowInTarget;
@@ -154,7 +153,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			}
 		});
 		
-		registerActions(copyAction, pasteAction, backAction, upAction, forwardAction, createPopOutAction(), createSyncAction(), createFileModeAction());
+		registerActions(copyAction, pasteAction, backAction, upAction, forwardAction, createPopOutAction(), createCommandPromptAction(), createSyncAction(), createFileModeAction());
 	}
 
 	private void createBreadcrumb(Composite parent) {
@@ -298,10 +297,30 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			{
 				setImageDescriptor(ImageFileRegistry.getResource(ImageFileRegistry.KEY_FOLDER_DEFAULT));
 			}
-
+			
 			@Override
 			public void run() {
 				Program.launch(browser.getUrl());
+			}
+		});
+	}
+	
+	private IAction createCommandPromptAction() {
+		return registerKey(new Action("Open command prompt") {
+			{
+				setImageDescriptor(Activator.getImageDescriptor("icons/command_prompt.gif"));
+			}
+			
+			@Override
+			public void run() {
+				
+				try {
+					File file = new File(new URI(browser.getUrl()));
+					if(file.isFile()) file = file.getParentFile();
+					Runtime.getRuntime().exec(String.format("cmd /C start /D \"%s\" cmd.exe /K", file));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}

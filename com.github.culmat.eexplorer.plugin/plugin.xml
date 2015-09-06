@@ -58,6 +58,12 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M3+O">
       </key>
+       <key
+            commandId="com.github.culmat.eexplorer.cmd.open_command_prompt"
+            contextId="com.github.culmat.eexplorer.context"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M3+P">
+      </key>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -94,6 +100,11 @@
             categoryId="com.github.culmat.eexplorer.cmd"
             id="com.github.culmat.eexplorer.cmd.open_native_explorer_window"
             name="Open native explorer window">
+      </command>
+      <command
+            categoryId="com.github.culmat.eexplorer.cmd"
+            id="com.github.culmat.eexplorer.cmd.open_command_prompt"
+            name="Open command prompt">
       </command>
    </extension>
    <extension
