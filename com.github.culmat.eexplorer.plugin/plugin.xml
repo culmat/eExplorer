@@ -23,6 +23,12 @@
       <extension
          point="org.eclipse.ui.bindings">
       <key
+            commandId="com.github.culmat.eexplorer.show"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M2+M3+E">
+      </key>
+      <key
             commandId="com.github.culmat.eexplorer.cmd.back"
             contextId="com.github.culmat.eexplorer.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
@@ -67,6 +73,13 @@
    </extension>
    <extension
          point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.eclipse.ui.category.navigate"
+            id="com.github.culmat.eexplorer.show"
+            name="eExplorer"
+            description="Show in embeded explorer view"
+            defaultHandler="com.github.culmat.eexplorer.commands.OpenExplorerView">
+      </command>
       <category
             id="com.github.culmat.eexplorer.cmd"
             name="eExplorer Commands">
