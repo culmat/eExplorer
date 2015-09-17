@@ -47,13 +47,13 @@
             sequence="M3+ARROW_UP">
       </key>
        <key
-            commandId="com.github.culmat.eexplorer.cmd.copy"
+            commandId="com.github.culmat.eexplorer.cmd.copy_path"
             contextId="com.github.culmat.eexplorer.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M3+C">
       </key>
        <key
-            commandId="com.github.culmat.eexplorer.cmd.paste"
+            commandId="com.github.culmat.eexplorer.cmd.paste_path"
             contextId="com.github.culmat.eexplorer.context"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="M3+V">
@@ -101,12 +101,12 @@
       </command>
       <command
             categoryId="com.github.culmat.eexplorer.cmd"
-            id="com.github.culmat.eexplorer.cmd.copy"
+            id="com.github.culmat.eexplorer.cmd.copy_path"
             name="Copy Path">
       </command>
       <command
             categoryId="com.github.culmat.eexplorer.cmd"
-            id="com.github.culmat.eexplorer.cmd.paste"
+            id="com.github.culmat.eexplorer.cmd.paste_path"
             name="Paste Path">
       </command>
       <command
