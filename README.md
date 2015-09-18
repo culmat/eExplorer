@@ -30,12 +30,12 @@ or use `http://culmat.github.io/eExplorer/updatesite/` in Help -> Install New So
         - <kbd>Ctrl+Alt+Shift+E</kbd>
         - or <kbd>Alt+Shift+W</kbd> (or right-click "Show In" menu) to open Explorer View for selected folder/package
     - from within Explorer view
-        - <kbd>Alt+C</kbd> Copy path (e.g. to Bookmark)
-        - <kbd>Alt+V</kbd> Paste path (e.g. Go back to bookmark)
+        - <kbd>Alt+C</kbd> Copy path to clipboard (e.g. to bookmark it)
+        - <kbd>Alt+V</kbd> Paste path from clipboard (e.g. to go back to bookmark)
         - <kbd>Alt+←</kbd> Back in history
         - <kbd>Alt+↑</kbd> Up one level
         - <kbd>Alt+→</kbd> Forward  in history
-        - <kbd>Alt+O</kbd> pop out native explorer window
+        - <kbd>Alt+O</kbd> Pop out native explorer window
 
 Explorer is a tool many of us use every day and many of us customize to their needs, so it is 
 only natural we long for an easy integration in Eclipse. 
