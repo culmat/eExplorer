@@ -25,15 +25,17 @@ or use `http://culmat.github.io/eExplorer/updatesite/` in Help -> Install New So
 - breadcrump to navigate to any folder or preview files (that Internet Explorer can render, e.g. .txt, .xml, images)
 - pop out native explorer window
 - browsing history
-- <kbd>Alt+Shift+W</kbd> (or right-click "Show In" menu) to open Explorer View for selected folder/package
-- <kbd>Ctrl+Alt+Shift+E</kbd> open Explorer view
-- Short cuts 
-    - <kbd>Alt+C</kbd> Copy path (e.g. to Bookmark)
-    - <kbd>Alt+V</kbd> Paste path (e.g. Go back to bookmark)
-    - <kbd>Alt+←</kbd> Back in history
-    - <kbd>Alt+↑</kbd> Up one level
-    - <kbd>Alt+→</kbd> Forward  in history
-    - <kbd>Alt+O</kbd> pop out native explorer window
+- Shortcuts 
+    - from anywhere to open Explorer view
+        - <kbd>Ctrl+Alt+Shift+E</kbd>
+        - or <kbd>Alt+Shift+W</kbd> (or right-click "Show In" menu) to open Explorer View for selected folder/package
+    - from within Explorer view
+        - <kbd>Alt+C</kbd> Copy path (e.g. to Bookmark)
+        - <kbd>Alt+V</kbd> Paste path (e.g. Go back to bookmark)
+        - <kbd>Alt+←</kbd> Back in history
+        - <kbd>Alt+↑</kbd> Up one level
+        - <kbd>Alt+→</kbd> Forward  in history
+        - <kbd>Alt+O</kbd> pop out native explorer window
 
 Explorer is a tool many of us use every day and many of us customize to their needs, so it is 
 only natural we long for an easy integration in Eclipse. 
