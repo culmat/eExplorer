@@ -16,10 +16,18 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 
 public class SyncWithDirectorySelectionListener implements ISelectionListener {
-	private static final String PACKAGE_EXPLORER_ID = "org.eclipse.jdt.ui.PackageExplorer";
-	private static final String PROJECT_EXPLORER_ID = "org.eclipse.ui.navigator.ProjectExplorer";
-	private static final String GIT_REPOSITORIES_VIEW_ID = "org.eclipse.egit.ui.RepositoriesView";
-	private static final String[] IDS = new String[] { PROJECT_EXPLORER_ID, PACKAGE_EXPLORER_ID, GIT_REPOSITORIES_VIEW_ID };
+	enum Target {
+		
+		PACKAGE_EXPLORER_ID("org.eclipse.jdt.ui.PackageExplorer"),
+		PROJECT_EXPLORER_ID("org.eclipse.ui.navigator.ProjectExplorer"),
+		GIT_REPOSITORIES_VIEW_ID("org.eclipse.egit.ui.RepositoriesView");		
+		
+		final String id;
+		private Target(String id) {
+			this.id = id;
+		}
+	}
+	
 	private boolean enabled;
 	private final ISelectionService selectionService;
 	private final FileSelectionListener listener;
@@ -100,19 +108,19 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 			return;
 		this.enabled = enabled;
 		if (enabled) {
-			for (String id : IDS) {
-				selectionService.addPostSelectionListener(id, this);
+			for (Target target : Target.values()) {
+				selectionService.addPostSelectionListener(target.id, this);
 			}
-			for (String id : IDS) {
-				ISelection selection = selectionService.getSelection(id);
+			for (Target target : Target.values()) {
+				ISelection selection = selectionService.getSelection(target.id);
 				if (selection != null) {
 					selectionChanged(null, selection);
 					break;
 				}
 			}
 		} else {
-			for (String id : IDS) {
-				selectionService.removePostSelectionListener(id, this);
+			for (Target target : Target.values()) {
+				selectionService.removePostSelectionListener(target.id, this);
 			}
 		}
 	}
