@@ -18,7 +18,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 public class SyncWithDirectorySelectionListener implements ISelectionListener {
 	private static final String PACKAGE_EXPLORER_ID = "org.eclipse.jdt.ui.PackageExplorer";
 	private static final String PROJECT_EXPLORER_ID = "org.eclipse.ui.navigator.ProjectExplorer";
-	private static final String[] IDS = new String[] { PROJECT_EXPLORER_ID, PACKAGE_EXPLORER_ID };
+	private static final String GIT_REPOSITORIES_VIEW_ID = "org.eclipse.egit.ui.RepositoriesView";
+	private static final String[] IDS = new String[] { PROJECT_EXPLORER_ID, PACKAGE_EXPLORER_ID, GIT_REPOSITORIES_VIEW_ID };
 	private boolean enabled;
 	private final ISelectionService selectionService;
 	private final FileSelectionListener listener;
