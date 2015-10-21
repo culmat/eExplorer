@@ -47,8 +47,9 @@ public class SyncWithDirectorySelectionListener implements ISelectionListener {
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (!enabled)
 			return;
-		IStructuredSelection sel = (IStructuredSelection) selection;
-		show(sel);
+		if (selection instanceof IStructuredSelection) {
+			show((IStructuredSelection) selection);
+		}
 	}
 
 	boolean show(IStructuredSelection sel) {
