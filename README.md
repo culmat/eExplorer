@@ -20,8 +20,7 @@ or use `http://culmat.github.io/eExplorer/updatesite/` in Help -> Install New So
 
 #### Features
 
-- sync with Package Explorer
-- sync with Project Explorer
+- sync with Project Explorer, Package Explorer and Git Repositories View
 - breadcrump to navigate to any folder or preview files (that Internet Explorer can render, e.g. .txt, .xml, images)
 - pop out native explorer window
 - browsing history
