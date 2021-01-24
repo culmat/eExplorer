@@ -218,7 +218,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		return new Action("Toggle file mode", SWT.TOGGLE) {
 			{
 				try {
-				URL url = new URL("platform:/plugin/org.eclipse.ui.ide/icons/full/obj16/welcome_editor.gif");
+				URL url = new URL("platform:/plugin/org.eclipse.ui.ide/icons/full/obj16/welcome_editor.png");
 				ImageDescriptor folder = ImageDescriptor.createFromURL(url );
 				setImageDescriptor(folder);
 				

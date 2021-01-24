@@ -24,9 +24,9 @@ public class UIBrowserAction extends Action {
 	public UIBrowserAction(String text, int style, Icon icon) {
 		super(text,style);
 		try {
-			String imgDisabled = "platform:/plugin/org.eclipse.ui.browser/icons/dlcl16/"+icon+".gif";
+			String imgDisabled = "platform:/plugin/org.eclipse.ui.browser/icons/dlcl16/"+icon+".png";
 			setDisabledImageDescriptor(ImageDescriptor.createFromURL(new URL(imgDisabled)));
-			String imgEnabled = "platform:/plugin/org.eclipse.ui.browser/icons/elcl16/"+icon+".gif";
+			String imgEnabled = "platform:/plugin/org.eclipse.ui.browser/icons/elcl16/"+icon+".png";
 			setImageDescriptor(ImageDescriptor.createFromURL(new URL(imgEnabled)));
 		} catch (MalformedURLException e1) {
 			e1.printStackTrace();
