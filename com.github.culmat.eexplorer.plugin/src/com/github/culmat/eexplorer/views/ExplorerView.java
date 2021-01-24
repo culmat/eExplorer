@@ -6,11 +6,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 
-import nu.bibi.breadcrumb.IMenuSelectionListener;
-import nu.bibi.breadcrumb.MenuSelectionEvent;
-import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
-import nu.bibi.breadcrumb.files.ImageFileRegistry;
-
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -32,7 +27,10 @@ import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IPartListener2;
+import org.eclipse.ui.IPartService;
 import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPartReference;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.contexts.IContextService;
@@ -47,7 +45,12 @@ import com.github.culmat.eexplorer.actions.PasteAction;
 import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.FileSelectionListener;
 import com.github.culmat.eexplorer.views.UIBrowserAction.Icon;
 
-public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget {
+import nu.bibi.breadcrumb.IMenuSelectionListener;
+import nu.bibi.breadcrumb.MenuSelectionEvent;
+import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
+import nu.bibi.breadcrumb.files.ImageFileRegistry;
+
+public class ExplorerView extends ViewPart implements FileSelectionListener, IShowInTarget, IPartListener2 {
 
 	private File defaultFile;
 
@@ -66,6 +69,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	
 	private PasteAction pasteAction;
 	private CopyAction  copyAction;
+	private boolean syncing = true;
 
 	@Override
 	public void init(IViewSite site) throws PartInitException {
@@ -81,6 +85,24 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		registerKey(pasteAction);
 		copyAction  = new CopyAction(Display.getDefault(),site.getWorkbenchWindow());
 		registerKey(copyAction);
+		IPartService iPartService = site.getWorkbenchWindow().getService(IPartService.class);
+		iPartService.addPartListener(this);
+	}
+	
+	@Override
+	public void partVisible(IWorkbenchPartReference partRef) {
+		if(!ID.equals(partRef.getId())) {
+			return;
+		}
+		selectionListener.setEnabled(syncing);
+	}
+	
+	@Override
+	public void partHidden(IWorkbenchPartReference partRef) {
+		if(!ID.equals(partRef.getId())) {
+			return;
+		}
+		selectionListener.setEnabled(false);
 	}
 
 	@Override
@@ -210,6 +232,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			public void setChecked(boolean checked) {
 				super.setChecked(checked);
 				selectionListener.setEnabled(checked);
+				syncing = checked;
 			}
 		};
 	}

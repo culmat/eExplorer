@@ -19,7 +19,7 @@ public class OpenExplorerView extends AbstractHandler {
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		try {
 	        IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-	        String viewId = "com.github.culmat.eexplore.views.ExplorerView";
+	        String viewId = "com.github.culmat.eexplorer.views.ExplorerView";
 	        IViewPart view = activePage.showView(viewId);
 	        activePage.activate(view);
 		} catch (PartInitException e) {
@@ -31,8 +31,8 @@ public class OpenExplorerView extends AbstractHandler {
 	}
 
 	private void showError(Exception e) {
-		String title = "Exception while opening GitHub Flavored Markdown View";
-		String message = title+" (com.github.culmat.eexplore.views.ExplorerView)"
+		String title = "Exception while opening Explorer View";
+		String message = title+" (com.github.culmat.eexplorer.views.ExplorerView)"
 				+"\nCheck Error Log View and continue at https://github.com/culmat/eExplorer";
 		LogUtil.error(message, e);
 		MessageDialog.openError(Display.getDefault().getActiveShell(), title , message);

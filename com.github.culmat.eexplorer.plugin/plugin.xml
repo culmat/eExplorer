@@ -8,7 +8,7 @@
             name="Explorer"
             icon="icons/Windows_Explorer_Icon_16x16.png"
             class="com.github.culmat.eexplorer.views.ExplorerView"
-            id="com.github.culmat.eexplore.views.ExplorerView">
+            id="com.github.culmat.eexplorer.views.ExplorerView">
       </view>
    </extension>
     <extension
@@ -16,7 +16,7 @@
       <perspectiveExtension
             targetID="*">
          <showInPart
-               id="com.github.culmat.eexplore.views.ExplorerView">
+               id="com.github.culmat.eexplorer.views.ExplorerView">
          </showInPart>
       </perspectiveExtension>
    </extension>
