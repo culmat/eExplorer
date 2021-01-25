@@ -1,0 +1,21 @@
+name: CR
+
+on: 
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@master # don't get confused by @master - it is the version of the checkout action. You repo will be checked out with ${{ github.ref }}
+      - name: Build
+        run: mvn -V -B --no-transfer-progress clean package site
+      - name: Deploy site
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages 
+          FOLDER: com.github.culmat.eexplorer.site/target/site 

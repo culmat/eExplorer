@@ -12,30 +12,4 @@
 
   <packaging>eclipse-update-site</packaging>
   
-  <build>
-		<plugins>
-
-			<plugin>
-				<groupId>com.github.github</groupId>
-				<artifactId>site-maven-plugin</artifactId>
-				<version>0.12</version>
-				<configuration>
-					<repositoryOwner>culmat</repositoryOwner>
-					<repositoryName>eExplorer</repositoryName>
-					<message>Releasing update site for ${project.version}</message>
-					<path>updatesite</path>
-					<oauth2Token>${env.github_oauth2Token}</oauth2Token>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>site</goal>
-						</goals>
-						<phase>site</phase>
-					</execution>
-				</executions>
-			</plugin>
-
-		</plugins>
-	</build>
 </project>
