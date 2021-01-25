@@ -12,6 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master # don't get confused by @master - it is the version of the checkout action. You repo will be checked out with ${{ github.ref }}
       - name: Build
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
         run: mvn -V -B --no-transfer-progress clean package site
       - name: Deploy site
         uses: JamesIves/github-pages-deploy-action@3.7.1
