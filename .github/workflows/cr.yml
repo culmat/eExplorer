@@ -24,3 +24,4 @@ jobs:
           BRANCH: gh-pages 
           FOLDER: com.github.culmat.eexplorer.site/target/site
           TARGET_FOLDER: updatesite 
+          CLEAN: true 
