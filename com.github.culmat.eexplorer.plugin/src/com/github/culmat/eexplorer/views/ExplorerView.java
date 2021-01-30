@@ -321,11 +321,28 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 				setImageDescriptor(ImageFileRegistry.getResource(ImageFileRegistry.KEY_FOLDER_DEFAULT));
 			}
 			
+			LastRun lastRun = new LastRun();
 			@Override
 			public void run() {
+				if(!lastRun.check()) return;
 				Program.launch(browser.getUrl());
 			}
 		});
+	}
+	
+	/**
+	 * This is a hack 
+	 */
+	@Deprecated
+	private class LastRun{
+		long lastrun;
+		private boolean check() {
+			try {
+				return System.currentTimeMillis()-lastrun > 100;
+			} finally {
+				lastrun = System.currentTimeMillis();
+			}
+		}
 	}
 	
 	private IAction createCommandPromptAction() {
@@ -333,10 +350,10 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			{
 				setImageDescriptor(Activator.getImageDescriptor("icons/command_prompt.gif"));
 			}
-			
+			LastRun lastRun = new LastRun();
 			@Override
 			public void run() {
-				
+				if(!lastRun.check()) return;
 				try {
 					File file = new File(new URI(browser.getUrl()));
 					if(file.isFile()) file = file.getParentFile();
