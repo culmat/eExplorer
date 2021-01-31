@@ -19,15 +19,18 @@
 	<body >
 		<div class="message-warning">
 		<b>⚠️ Experimental platform</b><br/><br/> 
-		This plugin was originally designed to work on Windows and <a href="https://github.com/culmat/eExplorer/issues/31" target="_blank">later</a> opened to other platforms.<br/> 
+		This plugin was originally designed to work on Windows and <a href="#" onclick="javascript:navigate('https://github.com/culmat/eExplorer/issues/31');">later</a> opened to other platforms.<br/> 
 		It's main functionality - the embedded file manager - relies on the fact that MS Edge displays the native explorer for <i>file://</i>-URLs.<br/>
 		While the native experience might be degraded, I hope this is still useful for you.<br/>
-		Please do not hesitate to <a href="https://github.com/culmat/eExplorer/issues" target="_blank">get in touch</a> to report ideas, bugs and other feed back.<br/>
+		Please do not hesitate to <a href="#" onclick="javascript:navigate('https://github.com/culmat/eExplorer/issues');" >get in touch</a> to report ideas, bugs and other feed back.<br/>
 		<br/><button onclick="javascript:gotIt();">Got it. Don't show this again.</button>
 	    </div>
 		<script type="text/javascript">
-			function gotIt(){
+			function gotIt(){	
 				document.title = "NON_WINDOWS_OK";
+			}
+			function navigate(url){	
+				document.title = "__nav:"+url;
 			}
 		</script>
 	</body>

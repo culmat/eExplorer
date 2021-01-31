@@ -165,7 +165,9 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			
 			@Override
 			public void changed(TitleEvent event) {
-				if("NON_WINDOWS_OK".equals(event.title)) {
+				if(event.title.startsWith("__nav:")) {
+					Program.launch(event.title.substring(6));
+				} else if("NON_WINDOWS_OK".equals(event.title)) {
 					disabed = false;
 					Activator.getDefault().setNonWindowsWarning(false);
 					File lastSelection = selectionListener.getLastSelection();
