@@ -111,6 +111,10 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		selectionListener.setEnabled(false);
 	}
 
+	public void focusBreadcrump() {
+		breadcrumb.setFocus();
+	}
+	
 	@Override
 	public void dispose() {	
 		super.dispose();
@@ -397,7 +401,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	@Override
 	public void select(File selection) {
 		if(disabed) return;
-		browser.setUrl(selection.toURI().toString());
+		if(!browser.isDisposed()) browser.setUrl(selection.toURI().toString());
 		copyAction.setClipboard(selection);
 	}
 

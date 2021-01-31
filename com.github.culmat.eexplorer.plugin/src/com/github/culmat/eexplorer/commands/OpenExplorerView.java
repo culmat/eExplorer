@@ -5,12 +5,12 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 
 import com.github.culmat.eexplorer.LogUtil;
+import com.github.culmat.eexplorer.views.ExplorerView;
 
 
 public class OpenExplorerView extends AbstractHandler {
@@ -20,8 +20,11 @@ public class OpenExplorerView extends AbstractHandler {
 		try {
 	        IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 	        String viewId = "com.github.culmat.eexplorer.views.ExplorerView";
-	        IViewPart view = activePage.showView(viewId);
-	        activePage.activate(view);
+	        if(viewId.equals(activePage.getActivePartReference().getId())) {
+	        	((ExplorerView) activePage.getActivePart().getSite().getPart()).focusBreadcrump();
+	        } else {
+	        	activePage.activate(activePage.showView(viewId));
+	        }
 		} catch (PartInitException e) {
 			showError(e);
 	    } catch (Exception e) {
