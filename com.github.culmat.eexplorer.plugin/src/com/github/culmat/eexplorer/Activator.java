@@ -85,7 +85,7 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	private String read(URL url) throws IOException {
-		Scanner scanner = new Scanner(url.openStream(), Charset.forName("UTF-8"));
+		Scanner scanner = new Scanner(url.openStream());
 		try {
 			return scanner.useDelimiter("\\A").next();
 		} finally {
