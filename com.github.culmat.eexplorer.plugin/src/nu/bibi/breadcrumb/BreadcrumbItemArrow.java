@@ -10,9 +10,6 @@
  *******************************************************************************/
 package nu.bibi.breadcrumb;
 
-import nu.bibi.breadcrumb.files.ImageFileRegistry;
-import nu.bibi.breadcrumb.internal.Messages;
-
 import org.eclipse.jface.util.Geometry;
 import org.eclipse.jface.viewers.IOpenListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -46,6 +43,9 @@ import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
+
+import nu.bibi.breadcrumb.files.ImageFileRegistry;
+import nu.bibi.breadcrumb.internal.Messages;
 
 /**
  * The drop-down part of the breadcrumb item.

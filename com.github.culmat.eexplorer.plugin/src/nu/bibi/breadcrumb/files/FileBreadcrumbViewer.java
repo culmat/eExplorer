@@ -12,14 +12,14 @@ package nu.bibi.breadcrumb.files;
 
 import java.io.File;
 
-import nu.bibi.breadcrumb.BreadcrumbViewer;
-
 import org.eclipse.jface.viewers.ColumnViewerToolTipSupport;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+
+import nu.bibi.breadcrumb.BreadcrumbViewer;
 
 /**
  * File Breadcrumb Viewer.

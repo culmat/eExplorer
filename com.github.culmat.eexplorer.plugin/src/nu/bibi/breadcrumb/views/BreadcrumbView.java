@@ -14,13 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import nu.bibi.breadcrumb.IMenuSelectionListener;
-import nu.bibi.breadcrumb.MenuSelectionEvent;
-import nu.bibi.breadcrumb.files.Computer;
-import nu.bibi.breadcrumb.files.DirectoryFilter;
-import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
-import nu.bibi.breadcrumb.internal.Messages;
-
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -35,6 +28,13 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.ViewPart;
+
+import nu.bibi.breadcrumb.IMenuSelectionListener;
+import nu.bibi.breadcrumb.MenuSelectionEvent;
+import nu.bibi.breadcrumb.files.Computer;
+import nu.bibi.breadcrumb.files.DirectoryFilter;
+import nu.bibi.breadcrumb.files.FileBreadcrumbViewer;
+import nu.bibi.breadcrumb.internal.Messages;
 
 /**
  * View with a FileBreadcrumbViewer.
