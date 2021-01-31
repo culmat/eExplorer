@@ -1,6 +1,7 @@
 package com.github.culmat.eexplorer.views;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -21,6 +22,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.TitleEvent;
+import org.eclipse.swt.browser.TitleListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
@@ -42,6 +45,7 @@ import org.eclipse.ui.part.ViewPart;
 import com.github.culmat.eexplorer.Activator;
 import com.github.culmat.eexplorer.actions.CopyAction;
 import com.github.culmat.eexplorer.actions.PasteAction;
+import com.github.culmat.eexplorer.os.Terminal;
 import com.github.culmat.eexplorer.views.SyncWithDirectorySelectionListener.FileSelectionListener;
 import com.github.culmat.eexplorer.views.UIBrowserAction.Icon;
 
@@ -70,10 +74,12 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 	private PasteAction pasteAction;
 	private CopyAction  copyAction;
 	private boolean syncing = true;
+	private boolean disabed = false;
 
 	@Override
 	public void init(IViewSite site) throws PartInitException {
 		super.init(site);
+		disabed = Activator.getDefault().isNonWindowsWarning();
 		selectionListener = new SyncWithDirectorySelectionListener(site.getWorkbenchWindow(), this);
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
@@ -138,11 +144,31 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 		createBreadcrumb(parent);
 		try {
 			browser = new Browser(parent, SWT.NONE);
-			browser.setUrl(defaultFile.toURI().toString());
+			if(disabed) {
+				try {
+					browser.setText(Activator.getDefault().getResourceAsString("html/nonWin.html"));
+				} catch (IOException e) {
+					throw new IllegalStateException("Could not load resource html/nonWin.html" , e);
+				}
+			} else {
+				browser.setUrl(defaultFile.toURI().toString());
+			}
 		} catch (SWTError e) {
-			System.out.println("Unable to open activeX control");
+			System.err.println("Unable to open activeX control");
 			return;
 		}
+		browser.addTitleListener(new TitleListener() {
+			
+			@Override
+			public void changed(TitleEvent event) {
+				if("NON_WINDOWS_OK".equals(event.title)) {
+					disabed = false;
+					Activator.getDefault().setNonWindowsWarning(false);
+					File lastSelection = selectionListener.getLastSelection();
+					select(lastSelection != null ? lastSelection: defaultFile);
+				}
+			}
+		});
 		browser.setLayoutData(new GridData(GridData.FILL_VERTICAL | GridData.FILL_HORIZONTAL));
 		final IAction forwardAction = createForwardAction();
 		final IAction backAction = createBackWardAction();
@@ -355,9 +381,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 			public void run() {
 				if(!lastRun.check()) return;
 				try {
-					File file = new File(new URI(browser.getUrl()));
-					if(file.isFile()) file = file.getParentFile();
-					Runtime.getRuntime().exec(String.format("cmd /C start /D \"%s\" cmd.exe /K", file));
+					Terminal.launch(new File(new URI(browser.getUrl())));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -372,6 +396,7 @@ public class ExplorerView extends ViewPart implements FileSelectionListener, ISh
 
 	@Override
 	public void select(File selection) {
+		if(disabed) return;
 		browser.setUrl(selection.toURI().toString());
 		copyAction.setClipboard(selection);
 	}
