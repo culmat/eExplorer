@@ -4,7 +4,7 @@
       label="eExplorer"
       version="1.0.0.qualifier"
       provider-name="Matthias Cullmann"
-      os="win32">
+      os="linux,macosx,win32">
 
    <description url="https://github.com/culmat/eExplorer">
       eExplorer is an Eclipse plugin to embed Windows Explorer and keep it in sync with your work.

@@ -16,7 +16,7 @@
 		<repo.url>http://download.eclipse.org/releases/latest</repo.url>
 		<osgi.os>win32</osgi.os>
 		<osgi.ws>win32</osgi.ws>
-		<osgi.arch>x86</osgi.arch>
+		<osgi.arch>x86_64</osgi.arch>
 	</properties>
 	<repositories>
 		<repository>
